@@ -9,11 +9,16 @@
 int main(void)
 {
 	char input[128];
+	char *delim = " ";
+	char *str;
 
 	while (1)
 	{
 		display_prompt();
-		get_input(input, sizeof(input));
+		str = get_input(input, sizeof(input));
+		string_tok(str, delim);
 	}
+	free(input);
+
 	return (0);
 }
