@@ -8,7 +8,7 @@
  * Return: Void
  */
 
-void get_input(char *lineptr, size_t len)
+char *get_input(char *lineptr, size_t len)
 {
 	ssize_t char_read;
 
@@ -18,7 +18,7 @@ void get_input(char *lineptr, size_t len)
 	if (char_read == -1)
 	{
 		printf("Error");
-		return;
+		exit(EXIT_FAILURE);
 	}
-	free(lineptr);
+	return (lineptr);
 }
