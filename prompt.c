@@ -8,5 +8,5 @@
 
 void display_prompt(void)
 {
-	printf("simple_shell$ ");
+	write(STDOUT_FILENO, "simple_shell$ ", 14);
 }
