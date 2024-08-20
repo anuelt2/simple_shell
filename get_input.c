@@ -17,8 +17,9 @@ char *get_input(char *lineptr, size_t len)
 	char_read = getline(&lineptr, &len, stdin);
 	if (char_read == -1)
 	{
-		printf("Error");
+		perror("Getline Error");
 		exit(EXIT_FAILURE);
 	}
+
 	return (lineptr);
 }
