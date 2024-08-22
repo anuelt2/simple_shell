@@ -23,7 +23,10 @@ int main(int argc, char *argv[], char *envp[])
 
 	while (1)
 	{
-		display_prompt();
+		if (isatty(STDIN_FILENO))
+		{
+			display_prompt();
+		}
 		str = get_input(input, sizeof(input));
 		args = string_tok(str, delim);
 		pathname = args[0];
