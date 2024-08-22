@@ -16,6 +16,8 @@ int main(int argc, char *argv[], char *envp[])
 	char *str;
 	char *pathname;
 	char **args;
+	int count;
+
 	(void)argc;
 	(void)argv;
 
@@ -26,8 +28,10 @@ int main(int argc, char *argv[], char *envp[])
 		args = string_tok(str, delim);
 		pathname = args[0];
 		execute(pathname, args, envp);
+		free(args);
+		free(str);
 	}
-	free(input);
+	printf("%d", count);
 
 	return (0);
 }
