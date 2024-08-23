@@ -58,7 +58,7 @@ char **string_tok(char *str, char *delim)
  * Return: Void
  */
 
-void execute(char *pathname, char *args[], char *envp[])
+void execute(char *pathname, char *args[], char **envp)
 {
 	pid_t child_pid;
 	int status;
@@ -68,7 +68,9 @@ void execute(char *pathname, char *args[], char *envp[])
 	{
 		exit(e_status);
 	}
-	child_pid = fork();
+	if (is_executable(pathname) != 0)
+		child_pid = fork();
+
 	if (child_pid == -1)
 	{
 		perror("Fork Error");
