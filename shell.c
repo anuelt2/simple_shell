@@ -14,13 +14,15 @@ int main(int argc, char *argv[], char *envp[])
 	char input[128];
 	char *delim = DELIM;
 	char *str;
-	char *pathname;
+	char *full_path;
 	char **args;
-	int count;
-
 	(void)argc;
 	(void)argv;
 
+	full_path = malloc(sizeof(char) * 4096);
+	full_path[4095] = '\0';
+	if (!full_path)
+		exit(EXIT_FAILURE);
 	while (1)
 	{
 		if (isatty(STDIN_FILENO))
@@ -29,12 +31,21 @@ int main(int argc, char *argv[], char *envp[])
 		}
 		str = get_input(input, sizeof(input));
 		args = string_tok(str, delim);
-		pathname = args[0];
-		execute(pathname, args, envp);
-		free(args);
-		free(str);
+		full_path = find_command(args[0], envp);
+		if (is_executable(args[0]) != 0)
+		{
+			execute(args[0], args, envp);
+			free(args);
+			free(str);
+		}
+		else
+		{
+			execute(full_path, args, envp);
+			free(full_path);
+			free(args);
+			free(str);
+		}
 	}
-	printf("%d", count);
 
 	return (0);
 }
