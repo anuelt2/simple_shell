@@ -108,11 +108,12 @@ int is_executable(char *full_path)
 * find_ext_file - Find external command file
 * @pathname: The command to search for
 * @envp: Environment variable
+* @cmd_count: Count of commands entered in each shell session
 *
 * Return: Path to command
 */
 
-char *find_ext_file(char *pathname, char **envp)
+char *find_ext_file(char *pathname, char **envp, int cmd_count)
 {
 	char *env_path, *dir, *full_path;
 	int path_size;
@@ -149,6 +150,6 @@ char *find_ext_file(char *pathname, char **envp)
 	free(env_path);
 	if (pathname[0] != '/')
 		free(full_path);
-	perror("External command error");
+	fprintf(stderr, "simple_shell: %d: %s: not found\n", cmd_count, pathname);
 	return ('\0');
 }
