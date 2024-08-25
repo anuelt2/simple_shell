@@ -32,8 +32,8 @@ char **string_tok(char *str, char *delim)
 		if (token_count >= array_size)
 		{
 			array_size *= 2;
-			*args = realloc(*args, sizeof(char *) * array_size);
-			if (*args == NULL)
+			args = realloc(*args, sizeof(char *) * array_size);
+			if (args == NULL)
 			{
 				free(args);
 				perror("Realloc Error");
@@ -50,7 +50,7 @@ char **string_tok(char *str, char *delim)
 }
 
 /**
- * execute - executes commands
+ * execute_builtin - executes built-in commands
  * @pathname: Program to execute
  * @args: Array of commandline arguments
  * @envp: Pointer to array of environment variables
@@ -58,34 +58,59 @@ char **string_tok(char *str, char *delim)
  * Return: Void
  */
 
-void execute(char *pathname, char *args[], char **envp)
+void execute_builtin(char *args[])
+{
+	int status;
+
+	if (args[0] != NULL && (strcmp(args[0], "exit") == 0))
+	{
+		if (args[1] != NULL)
+		{
+			status = atoi(args[1]);
+			exit(status);
+		}
+		else
+		{
+			exit(0);
+		}
+	}
+}
+
+/**
+ * execute_external - executes external commands
+ * @pathname: Program to execute
+ * @args: Array of commandline arguments
+ * @envp: Pointer to array of environment variables
+ *
+ * Return: Void
+ */
+
+void execute_external(char *pathname, char *args[], char *envp[])
 {
 	pid_t child_pid;
 	int status;
-	int e_status = 0;
+	char *full_path;
 
-	if (strcmp(args[0], "exit") == 0)
+	full_path = find_ext_file(pathname, envp);
+	if (is_executable(full_path))
 	{
-		exit(e_status);
-	}
-	if (is_executable(pathname) != 0)
 		child_pid = fork();
-
-	if (child_pid == -1)
-	{
-		perror("Fork Error");
-		exit(EXIT_FAILURE);
-	}
-	else if (child_pid == 0)
-	{
-		if ((execve(pathname, args, envp)) == -1)
+		if (child_pid == -1)
 		{
-			perror("./shell");
+			perror("Fork Error");
 			exit(EXIT_FAILURE);
 		}
-	}
-	else
-	{
-		wait(&status);
+		else if (child_pid == 0)
+		{
+			if ((execve(full_path, args, envp)) == -1)
+			{
+				perror("./shell");
+				exit(EXIT_FAILURE);
+			}
+		}
+		else
+		{
+			wait(&status);
+		}
 	}
 }
