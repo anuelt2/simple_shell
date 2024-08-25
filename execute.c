@@ -50,10 +50,8 @@ char **string_tok(char *str, char *delim)
 }
 
 /**
- * execute_builtin - executes built-in commands
- * @pathname: Program to execute
+ * execute_builtin - Executes built-in commands
  * @args: Array of commandline arguments
- * @envp: Pointer to array of environment variables
  *
  * Return: Void
  */
@@ -77,7 +75,7 @@ void execute_builtin(char *args[])
 }
 
 /**
- * execute_external - executes external commands
+ * execute_external - Executes external commands
  * @pathname: Program to execute
  * @args: Array of commandline arguments
  * @envp: Pointer to array of environment variables
