@@ -16,18 +16,21 @@ int main(int argc, char *argv[], char *envp[])
 	char *str;
 	char *pathname;
 	char **args;
-	int count;
+	int cmd_count;
 
 	(void)argc;
 	(void)argv;
+	cmd_count = 0;
 
 	while (1)
 	{
 		if (isatty(STDIN_FILENO))
 		{
 			display_prompt();
+			fflush(stdout);
 		}
 		str = get_input(input, sizeof(input));
+		cmd_count++;
 		args = string_tok(str, delim);
 		pathname = args[0];
 		if (args[0] == NULL)
@@ -36,12 +39,11 @@ int main(int argc, char *argv[], char *envp[])
 			free(args);
 			continue;
 		}
-		execute_builtin(args);
-		execute_external(pathname, args, envp);
+		exec_builtin(args);
+		exec_external(pathname, args, envp, cmd_count);
 		free(args);
 		free(str);
 	}
-	printf("%d", count);
 
 	return (0);
 }
