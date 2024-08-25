@@ -1,10 +1,12 @@
 #include "shell.h"
 
 /**
-* _path_size - get envp path size
-* @envp: envppironment variable
-* Return: size of path
+* _path_size - Get envp path size
+* @envp: Environment variable
+*
+* Return: Size of path
 */
+
 int _path_size(char **envp)
 {
 	int i = 0, j = 5;
@@ -24,11 +26,13 @@ int _path_size(char **envp)
 }
 
 /**
-* get_env_path - get the env path
-* @envp: environment variable
-* @size: size of environment path variable
-* Return: pointer to path variable
+* get_env_path - Get the env path
+* @envp: Environment variable
+* @size: Size of environment path variable
+*
+* Return: Pointer to path variable
 */
+
 char *get_env_path(char **envp, int size)
 {
 	char *path;
@@ -52,10 +56,12 @@ char *get_env_path(char **envp, int size)
 
 /**
 * _concatenate - Concatenate strings
-* @dir: executable dir
-* @pathname: command name
-* Return: full path to command path
+* @dir: Executable directory
+* @pathname: Command name
+*
+* Return: Full path to command path
 */
+
 char *_concatenate(char *dir, char *pathname)
 {
 	char *full_path;
@@ -82,10 +88,12 @@ char *_concatenate(char *dir, char *pathname)
 }
 
 /**
-* is_executable - check if file is executable
-* @full_path: path to check
+* is_executable - Check if file is executable
+* @full_path: Path to check
+*
 * Return: 1 (success) or 0 (otherwise)
 */
+
 int is_executable(char *full_path)
 {
 	struct stat sb;
@@ -95,57 +103,19 @@ int is_executable(char *full_path)
 	return (stat(full_path, &sb) == 0 && sb.st_mode & S_IXUSR);
 }
 
-/**
-* find_command - find the command in file path
-* @pathname: the command to search for
-* @envp: environment variable
-* Return: path to command
-*/
-char *find_command(char *pathname, char **envp)
-{
-	char *env_path;
-	char *dir;
-	int path_size;
-	char *full_path;
-
-	path_size = _path_size(envp);
-	full_path = malloc(sizeof(char) * 4096);
-	full_path[4095] = '\0';
-	env_path = malloc(sizeof(char) * (path_size + 1));
-	env_path[path_size] = '\0';
-	env_path = get_env_path(envp, path_size);
-	if (!env_path)
-	{
-		perror("Envpath error");
-		exit(EXIT_FAILURE);
-	}
-	dir = strtok(env_path, ":");
-	while (dir != NULL)
-	{
-		full_path = _concatenate(dir, pathname);
-		if (is_executable(full_path) != 0)
-		{
-			return (full_path);
-		}
-		dir = strtok(NULL, ":");
-	}
-	free(env_path);
-	free(full_path);
-	return ('\0');
-}
 
 /**
 * find_ext_file - Find external command file
-* @pathname: the command to search for
-* @envp: environment variable
-* Return: path to command
+* @pathname: The command to search for
+* @envp: Environment variable
+*
+* Return: Path to command
 */
+
 char *find_ext_file(char *pathname, char **envp)
 {
-	char *env_path;
-	char *dir;
+	char *env_path, *dir, *full_path;
 	int path_size;
-	char *full_path;
 
 	path_size = _path_size(envp);
 	full_path = malloc(sizeof(char) * 4096);
@@ -178,9 +148,7 @@ char *find_ext_file(char *pathname, char **envp)
 	}
 	free(env_path);
 	if (pathname[0] != '/')
-	{
 		free(full_path);
-	}
 	perror("External command error");
 	return ('\0');
 }
