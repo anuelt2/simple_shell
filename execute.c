@@ -50,13 +50,13 @@ char **string_tok(char *str, char *delim)
 }
 
 /**
- * execute_builtin - Executes built-in commands
+ * exec_builtin - Executes built-in commands
  * @args: Array of commandline arguments
  *
  * Return: Void
  */
 
-void execute_builtin(char *args[])
+void exec_builtin(char *args[])
 {
 	int status;
 
@@ -75,21 +75,22 @@ void execute_builtin(char *args[])
 }
 
 /**
- * execute_external - Executes external commands
+ * exec_external - Executes external commands
  * @pathname: Program to execute
  * @args: Array of commandline arguments
  * @envp: Pointer to array of environment variables
+ * @cmd_count: Count of commands entered in each shell session
  *
  * Return: Void
  */
 
-void execute_external(char *pathname, char *args[], char *envp[])
+void exec_external(char *pathname, char *args[], char *envp[], int cmd_count)
 {
 	pid_t child_pid;
 	int status;
 	char *full_path;
 
-	full_path = find_ext_file(pathname, envp);
+	full_path = find_ext_file(pathname, envp, cmd_count);
 	if (is_executable(full_path))
 	{
 		child_pid = fork();
