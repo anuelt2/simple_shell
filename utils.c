@@ -64,7 +64,10 @@ char *_concatenate(char *dir, char *pathname)
 	full_path = malloc(sizeof(char) * 4096);
 	full_path[4095] = '\0';
 	if (!full_path)
+	{
+		perror("Fullpath error");
 		exit(EXIT_FAILURE);
+	}
 	for (i = 0; i < 4096 && dir[i] != '\0'; i++)
 	{
 		full_path[i] = dir[i];
@@ -112,7 +115,10 @@ char *find_command(char *pathname, char **envp)
 	env_path[path_size] = '\0';
 	env_path = get_env_path(envp, path_size);
 	if (!env_path)
+	{
+		perror("Envpath error");
 		exit(EXIT_FAILURE);
+	}
 	dir = strtok(env_path, ":");
 	while (dir != NULL)
 	{
@@ -125,5 +131,56 @@ char *find_command(char *pathname, char **envp)
 	}
 	free(env_path);
 	free(full_path);
+	return ('\0');
+}
+
+/**
+* find_ext_file - Find external command file
+* @pathname: the command to search for
+* @envp: environment variable
+* Return: path to command
+*/
+char *find_ext_file(char *pathname, char **envp)
+{
+	char *env_path;
+	char *dir;
+	int path_size;
+	char *full_path;
+
+	path_size = _path_size(envp);
+	full_path = malloc(sizeof(char) * 4096);
+	full_path[4095] = '\0';
+	env_path = malloc(sizeof(char) * (path_size + 1));
+	env_path[path_size] = '\0';
+	env_path = get_env_path(envp, path_size);
+	if (!env_path)
+	{
+		perror("Envpath error");
+		exit(EXIT_FAILURE);
+	}
+	dir = strtok(env_path, ":");
+	while (dir != NULL)
+	{
+		if (pathname[0] == '/')
+		{
+			full_path = pathname;
+		}
+		else
+		{
+			full_path = _concatenate(dir, pathname);
+		}
+		if (access(full_path, F_OK) == 0)
+		{
+			free(env_path);
+			return (full_path);
+		}
+		dir = strtok(NULL, ":");
+	}
+	free(env_path);
+	if (pathname[0] != '/')
+	{
+		free(full_path);
+	}
+	perror("External command error");
 	return ('\0');
 }
