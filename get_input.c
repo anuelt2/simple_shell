@@ -17,8 +17,18 @@ char *get_input(char *lineptr, size_t len)
 	char_read = getline(&lineptr, &len, stdin);
 	if (char_read == -1)
 	{
-		/*perror("Getline Error");*/
-		exit(EXIT_FAILURE);
+		if (feof(stdin))
+		{
+			free(lineptr);
+			/*write(STDOUT_FILENO, "\n", 1);*/
+			exit(EXIT_SUCCESS);
+		}
+		else
+		{
+			free(lineptr);
+			perror("Getline Error");
+			exit(EXIT_FAILURE);
+		}
 	}
 
 	return (lineptr);
