@@ -89,10 +89,11 @@ int cd_args(char **args, char **envp)
 	(void)envp;
 	if (strcmp(args[1], "-") == 0)
 	{
-		getcwd(buf, sizeof(buf));
-		setenv("OLDPWD", buf, 1);
 		size = oldpwd_path_size(envp);
 		path = get_oldpwd_path(envp, size);
+		getcwd(buf, sizeof(buf));
+		setenv("OLDPWD", buf, 1);
+		fprintf(stdout,"%s\n", path);
 		chdir(path);
 		getcwd(buf, sizeof(buf));
 		setenv("PWD", buf, 1);
