@@ -17,7 +17,7 @@
 void display_prompt(void);
 char *get_input(char *lineptr, size_t len);
 char **string_tok(char *str, char *delim);
-void exec_builtin(char *args[]);
+int exec_builtin(char *args[], char **envp);
 void exec_external(char *pathname, char *args[], char *envp[], int cmd_count);
 char *get_env_path(char **envp, int size);
 int _path_size(char **envp);
@@ -25,5 +25,13 @@ char *find_command(char *pathname, char **envp);
 char *_concatenate(char *dir, char *pathname);
 int is_executable(char *full_path);
 char *find_ext_file(char *pathname, char **envp, int cmd_count);
+char *get_home_path(char **envp, int size);
+int home_path_size(char **envp);
+char *get_pwd_path(char **envp, int size);
+int pwd_path_size(char **envp);
+char *get_oldpwd_path(char **envp, int size);
+int oldpwd_path_size(char **envp);
+void change_directory(const char *path);
+int cd_args(char **args, char **envp);
 
 #endif
