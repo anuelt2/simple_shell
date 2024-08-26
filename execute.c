@@ -80,13 +80,36 @@ int exec_builtin(char *args[], char **envp)
 	{
 		if (args[1] == NULL)
 		{
-			getcwd(buf, sizeof(buf));
-			setenv("OLDPWD", buf, 1);
+			if (getcwd(buf, sizeof(buf)) != NULL)
+			{
+				setenv("OLDPWD", buf, 1);
+			}
+			else
+			{
+				perror("getcwd error");
+				return (-1);
+			}
 			size = home_path_size(envp);
 			path = get_home_path(envp, size);
-			chdir(path);
-			getcwd(buf, sizeof(buf));
-			setenv("PWD", buf, 1);
+			if (path == NULL)
+			{
+				fprintf(stderr, "cd: no home directory");
+				return (-1);
+			}
+			if (chdir(path) != 0)
+			{
+				perror("cd");
+				return (-1);
+			}
+			if (getcwd(buf, sizeof(buf)) != NULL)
+			{
+				setenv("PWD", buf, 1);
+			}
+			else
+			{
+				perror("getcwd error");
+				return (-1);
+			}
 			return (1);
 		}
 		if (args[1] != NULL)
