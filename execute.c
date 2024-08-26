@@ -52,13 +52,17 @@ char **string_tok(char *str, char *delim)
 /**
  * exec_builtin - Executes built-in commands
  * @args: Array of commandline arguments
+ * @envp: Pointer to environment variables
  *
  * Return: Void
  */
 
-void exec_builtin(char *args[])
+int exec_builtin(char *args[], char **envp)
 {
 	int status;
+	const char *path;
+	int size;
+	char buf[1024];
 
 	if (args[0] != NULL && (strcmp(args[0], "exit") == 0))
 	{
@@ -72,6 +76,26 @@ void exec_builtin(char *args[])
 			exit(0);
 		}
 	}
+	if (args[0] != NULL && (strcmp(args[0], "cd") == 0))
+	{
+		if (args[1] == NULL)
+		{
+			getcwd(buf, sizeof(buf));
+			setenv("OLDPWD", buf, 1);
+			size = home_path_size(envp);
+			path = get_home_path(envp, size);
+			chdir(path);
+			getcwd(buf, sizeof(buf));
+			setenv("PWD", buf, 1);
+			return (1);
+		}
+		if (args[1] != NULL)
+		{
+			cd_args(args, envp);
+			return (1);
+		}
+	}
+	return (0);
 }
 
 /**
