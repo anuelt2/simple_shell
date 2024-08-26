@@ -17,6 +17,7 @@ int main(int argc, char *argv[], char *envp[])
 	char *pathname;
 	char **args;
 	int cmd_count;
+	int exec;
 
 	(void)argc;
 	(void)argv;
@@ -39,7 +40,11 @@ int main(int argc, char *argv[], char *envp[])
 			free(args);
 			continue;
 		}
-		exec_builtin(args);
+		exec = exec_builtin(args, envp);
+		if (exec == 1)
+		{
+			continue;
+		}
 		exec_external(pathname, args, envp, cmd_count);
 		free(args);
 		free(str);
