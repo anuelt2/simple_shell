@@ -93,7 +93,7 @@ int exec_builtin(char *args[], char **envp)
 			path = get_home_path(envp, size);
 			if (path == NULL)
 			{
-				fprintf(stderr, "cd: no home directory");
+				fprintf(stderr, "cd: no home directory\n");
 				return (-1);
 			}
 			if (chdir(path) != 0)
