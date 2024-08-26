@@ -38,7 +38,7 @@ char *get_pwd_path(char **envp, int size)
 	char *path;
 	int i = 0, j = 3, k = 0;
 
-	size = home_path_size(envp);
+	size = pwd_path_size(envp);
 	path = malloc(sizeof(char) * (size + 1));
 	path[size] = '\0';
 	while (envp[i] != NULL)
@@ -94,7 +94,7 @@ char *get_oldpwd_path(char **envp, int size)
 	char *path;
 	int i = 0, j = 6, k = 0;
 
-	size = home_path_size(envp);
+	size = oldpwd_path_size(envp);
 	path = malloc(sizeof(char) * (size + 1));
 	path[size] = '\0';
 	while (envp[i] != NULL)
