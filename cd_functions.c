@@ -38,7 +38,7 @@ int cd_args(char **args, char **envp)
 		path = get_oldpwd_path(envp, size);
 		getcwd(buf, sizeof(buf));
 		setenv("OLDPWD", buf, 1);
-		fprintf(stdout,"%s\n", path);
+		fprintf(stdout, "%s\n", path);
 		chdir(path);
 		getcwd(buf, sizeof(buf));
 		setenv("PWD", buf, 1);

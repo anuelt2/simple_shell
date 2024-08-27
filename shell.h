@@ -33,5 +33,6 @@ char *get_oldpwd_path(char **envp, int size);
 int oldpwd_path_size(char **envp);
 void change_directory(const char *path);
 int cd_args(char **args, char **envp);
+void exit_function(char *args[]);
 
 #endif
