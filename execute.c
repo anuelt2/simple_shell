@@ -2,7 +2,7 @@
 
 /**
  * exec_builtin - Executes built-in commands
- * @args: Array of commandline arguments
+ * @args: Array of command-line arguments
  * @envp: Pointer to environment variables
  *
  * Return: Void
