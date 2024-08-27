@@ -2,7 +2,7 @@
 
 /**
  * cd_args - Handles cd built-in command arguments
- * @args: Pointer to cd command arguments
+ * @args: Pointer to the cd command arguments
  * @envp: Pointer to environment variables
  *
  * Return: 1 (success)
