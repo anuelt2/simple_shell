@@ -2,7 +2,7 @@
 
 /**
  * get_input - Gets input from the commandline
- * @lineptr: Command string
+ * @lineptr: The pointer to the command string
  * @len: Size of string
  *
  * Return: Void
