@@ -10,6 +10,7 @@
 #include <sys/wait.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <limits.h>
 
 #define TOKEN_ARRAY_SIZE 20
 #define DELIM " \t\n"
@@ -31,8 +32,10 @@ char *get_pwd_path(char **envp, int size);
 int pwd_path_size(char **envp);
 char *get_oldpwd_path(char **envp, int size);
 int oldpwd_path_size(char **envp);
-void change_directory(const char *path);
 int cd_args(char **args, char **envp);
 void exit_function(char *args[]);
+int set_oldpwd(void);
+int set_pwd(void);
+int cd_exec(char *args[], char **envp);
 
 #endif
