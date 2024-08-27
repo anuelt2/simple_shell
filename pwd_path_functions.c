@@ -111,4 +111,3 @@ char *get_oldpwd_path(char **envp, int size)
 
 	return (path);
 }
-
