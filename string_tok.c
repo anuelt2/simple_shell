@@ -5,7 +5,7 @@
  * @str: Command string
  * @delim: Delimiter string
  *
- * Return: Array of commandline arguments
+ * Return: Array of command-line arguments
  */
 
 char **string_tok(char *str, char *delim)
