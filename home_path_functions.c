@@ -2,7 +2,7 @@
 
 /**
 * home_path_size - Get home path size
-* @envp: Environment variable
+* @envp: The environment variable
 *
 * Return: Size of path
 */
