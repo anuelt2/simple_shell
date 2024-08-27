@@ -2,7 +2,7 @@
 
 /**
  * exit_function - Executes exit built-in
- * @args: Array of commandline arguments
+ * @args: Array of command-line arguments
  *
  * Return: Void
  */
