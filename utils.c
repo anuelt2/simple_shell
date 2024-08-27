@@ -6,7 +6,6 @@
 *
 * Return: Size of path
 */
-
 int _path_size(char **envp)
 {
 	int i = 0, j = 5;
@@ -102,7 +101,6 @@ int is_executable(char *full_path)
 	/* S_IXUSR - Macro to  */
 	return (stat(full_path, &sb) == 0 && sb.st_mode & S_IXUSR);
 }
-
 
 /**
 * find_ext_file - Find external command file
