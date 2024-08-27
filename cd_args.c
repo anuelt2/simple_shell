@@ -1,7 +1,7 @@
 #include "shell.h"
 
 /**
- * set_oldpwd - Sets OLDPWD environment variable
+ * set_oldpwd - Sets the OLDPWD environment variable
  *
  * Return: 0 (success)
  */
@@ -24,7 +24,7 @@ int set_oldpwd(void)
 }
 
 /**
- * set_pwd - Sets PWD environment variable
+ * set_pwd - Sets the PWD environment variable
  *
  * Return: 0 (success)
  */
