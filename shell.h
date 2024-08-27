@@ -38,4 +38,31 @@ int set_oldpwd(void);
 int set_pwd(void);
 int cd_exec(char *args[], char **envp);
 
+/* str_utils.c */
+int _strlen(char *str);
+int _strcmp(char *str1, char *str2);
+int _strncmp(char *str1, char *str2, int n);
+char *_concat(char *var, char *val);
+int _strcon(char *str, char c);
+
+/* exec_utils */
+char *get_env_path(char **envp, int size);
+int _path_size(char **envp);
+char *find_command(char *pathname, char **envp);
+char *_concatenate(char *dir, char *pathname);
+int is_executable(char *full_path);
+
+/* env_utils.c */
+int env_size(void);
+int get_env_size(char **env);
+char **copy_environ(void);
+int env_func_caller(char **args);
+
+
+/* env_functions */
+extern char **environ;
+void get_env(void);
+int set_env(char *var, char *val, int overwrite);
+int unset_env(char *var);
+
 #endif
