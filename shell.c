@@ -37,17 +37,16 @@ int main(int argc, char *argv[], char *envp[])
 			free(args);
 			continue;
 		}
-		if (env_func_caller(args) != 0)
+
+		exec = exec_builtin(args, envp);
+		if (exec == 1)
 		{
-			exec = exec_builtin(args, envp);
-			if (exec == 1)
-			{
-				continue;
-			}
-			exec_external(pathname, args, envp, cmd_count);
-			free(args);
-			free(str);
+			continue;
 		}
+
+		exec_external(pathname, args, envp, cmd_count);
+		free(args);
+		free(str);
 	}
 
 	return (0);
