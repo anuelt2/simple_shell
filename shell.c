@@ -16,19 +16,16 @@ int main(int argc, char *argv[], char *envp[])
 	char *str;
 	char *pathname;
 	char **args;
-	int cmd_count;
-	int exec;
+	int cmd_count, int exec;
 
 	(void)argc;
 	(void)argv;
 	cmd_count = 0;
-
 	while (1)
 	{
 		if (isatty(STDIN_FILENO))
 		{
 			display_prompt();
-			fflush(stdout);
 		}
 		str = get_input(input, sizeof(input));
 		cmd_count++;
