@@ -19,6 +19,21 @@ int exec_builtin(char *args[], char **envp)
 			cd_exec(args, envp);
 			return (1);
 		}
+		if (_strcmp(args[0], "env") == 0)
+		{
+			get_env();
+			return (0);
+		}
+		else if (_strcmp(args[0], "setenv") == 0)
+		{
+			set_env(args[1], args[2], 1);
+			return (0);
+		}
+		else if (_strcmp(args[0], "unsetenv") == 0)
+		{
+			unset_env(args[1]);
+			return (0);
+		}
 	}
 	return (0);
 }
