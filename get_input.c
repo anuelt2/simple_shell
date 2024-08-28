@@ -20,7 +20,7 @@ char *get_input(char *lineptr, size_t len)
 		if (feof(stdin))
 		{
 			free(lineptr);
-			write(STDOUT_FILENO, "\n", 1);
+		/*	write(STDOUT_FILENO, "\n", 1);	*/
 			exit(EXIT_SUCCESS);
 		}
 		else
@@ -30,10 +30,11 @@ char *get_input(char *lineptr, size_t len)
 			exit(EXIT_FAILURE);
 		}
 	}
-	if (char_read > 0 && lineptr[char_read - 1] == '\n')
-	{
-		lineptr[char_read - 1] = '\0';
-	}
+
+	/*if (char_read > 0 && lineptr[char_read - 1] == '\n')*/
+	/*{*/
+	/*	lineptr[char_read - 1] = '\0';*/
+	/*}*/
 
 	return (lineptr);
 }
