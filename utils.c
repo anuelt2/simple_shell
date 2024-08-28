@@ -112,14 +112,16 @@ int is_executable(char *full_path)
 */
 char *find_ext_file(char *pathname, char **envp, int cmd_count)
 {
-	char *env_path, *dir, *full_path;
-	int path_size;
+	char *env_path, *dir, *full_path, *pwd = get_env_var_value(envp, pathname);
+	int path_size, i, j, k;
 
 	full_path = malloc(sizeof(char) * 4096);
 	full_path[4095] = '\0';
 	shell_path_exec(pathname, full_path);
 	path_size = _path_size(envp);
 	env_path = malloc(sizeof(char) * (path_size + 1));
+	if (!env_path)
+		exit(EXIT_FAILURE);
 	env_path[path_size] = '\0';
 	env_path = get_env_path(envp, path_size);
 	if (!env_path)
@@ -132,6 +134,14 @@ char *find_ext_file(char *pathname, char **envp, int cmd_count)
 	{
 		if (pathname[0] == '/')
 			full_path = pathname;
+		}
+		else if (pathname[0] == '.')
+		{
+			for (i = 0; pwd[i] != '\0'; i++)
+				full_path[i] = pwd[i];
+			for (j = i, k = 1; pathname[k] != '\0'; k++, j++)
+				full_path[j] = pathname[k];
+		}
 		else
 			full_path = _concatenate(dir, pathname);
 		if (access(full_path, F_OK) == 0)
