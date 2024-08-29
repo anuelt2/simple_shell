@@ -110,15 +110,15 @@ int is_executable(char *full_path)
 *
 * Return: Path to command
 */
-
 char *find_ext_file(char *pathname, char **envp, int cmd_count)
 {
 	char *env_path, *dir, *full_path;
 	int path_size;
 
-	path_size = _path_size(envp);
 	full_path = malloc(sizeof(char) * 4096);
 	full_path[4095] = '\0';
+	shell_path_exec(pathname, full_path);
+	path_size = _path_size(envp);
 	env_path = malloc(sizeof(char) * (path_size + 1));
 	env_path[path_size] = '\0';
 	env_path = get_env_path(envp, path_size);
@@ -131,13 +131,9 @@ char *find_ext_file(char *pathname, char **envp, int cmd_count)
 	while (dir != NULL)
 	{
 		if (pathname[0] == '/')
-		{
 			full_path = pathname;
-		}
 		else
-		{
 			full_path = _concatenate(dir, pathname);
-		}
 		if (access(full_path, F_OK) == 0)
 		{
 			free(env_path);
@@ -146,8 +142,11 @@ char *find_ext_file(char *pathname, char **envp, int cmd_count)
 		dir = strtok(NULL, ":");
 	}
 	free(env_path);
-	if (pathname[0] != '/')
+	if (pathname[0] != '/' && pathname[0] != '.')
+	{
 		free(full_path);
-	fprintf(stderr, "simple_shell: %d: %s: not found\n", cmd_count, pathname);
-	return ('\0');
+		fprintf(stderr, "simple_shell: %d: %s: not found\n", cmd_count, pathname);
+		return ('\0');
+	}
+	return (full_path);
 }

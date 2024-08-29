@@ -65,4 +65,6 @@ void get_env(void);
 int set_env(char *var, char *val, int overwrite);
 int unset_env(char *var);
 
+char *shell_path_exec(char *pathname, char *full_path);
+
 #endif
