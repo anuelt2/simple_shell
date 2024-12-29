@@ -1,42 +1,91 @@
 #include "shell.h"
 
 /**
- * cd_args - Handles cd built-in command arguments
- * @args: Pointer to the cd command arguments
- * @envp: Pointer to environment variables
+ * set_oldpwd - Sets the OLDPWD environment variable
  *
- * Return: 1 (success)
+ * Return: 0 (success)
  */
 
-int cd_args(char **args, char **envp)
+int set_oldpwd(void)
 {
-	const char *path;
-	char buf[1024];
-	int size;
+	char buf[PATH_MAX];
 
-	(void)envp;
-	if (strcmp(args[1], "-") == 0)
+	if (getcwd(buf, sizeof(buf)) != NULL)
 	{
-		size = oldpwd_path_size(envp);
-		path = get_oldpwd_path(envp, size);
-		getcwd(buf, sizeof(buf));
 		setenv("OLDPWD", buf, 1);
-		fprintf(stdout, "%s\n", path);
-		chdir(path);
-		getcwd(buf, sizeof(buf));
-		setenv("PWD", buf, 1);
-		return (1);
 	}
 	else
 	{
-		getcwd(buf, sizeof(buf));
-		setenv("OLDPWD", buf, 1);
-		path = args[1];
-		chdir(path);
-		getcwd(buf, sizeof(buf));
-		setenv("PWD", buf, 1);
-		return (1);
+		perror("getcwd error");
+		return (-1);
 	}
 
+	return (0);
+}
+
+/**
+ * set_pwd - Sets the PWD environment variable
+ *
+ * Return: 0 (success)
+ */
+
+int set_pwd(void)
+{
+	char buf[PATH_MAX];
+
+	if (getcwd(buf, sizeof(buf)) != NULL)
+	{
+		setenv("PWD", buf, 1);
+	}
+	else
+	{
+		perror("getcwd error");
+		return (-1);
+	}
+
+	return (0);
+}
+
+/**
+ * cd_exec - Executes cd commands
+ * @args: Array of commandline arguments
+ * @envp: Pointer to environment variables
+ *
+ * Return: 0 (success)
+ */
+
+int cd_exec(char *args[], char **envp)
+{
+	const char *path;
+	int size;
+
+	if (args[1] == NULL)
+	{
+		set_oldpwd();
+		size = home_path_size(envp);
+		path = get_home_path(envp, size);
+		if (path == NULL)
+		{
+			fprintf(stderr, "cd: no home directory\n");
+			free_resources(args);
+			return (-1);
+		}
+		if (chdir(path) != 0)
+		{
+			perror("cd");
+			free_resources(args);
+			return (-1);
+		}
+		set_pwd();
+		free_resources(args);
+		return (1);
+	}
+	if (args[1] != NULL)
+	{
+		cd_args(args, envp);
+		free_resources(args);
+		return (1);
+	}
+	free_resources(args);
 	return (0);
 }
