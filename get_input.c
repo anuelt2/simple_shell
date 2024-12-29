@@ -1,31 +1,30 @@
 #include "shell.h"
 
 /**
- * get_input - Gets input from the commandline
- * @lineptr: The pointer to the command string
- * @len: Size of string
+ * get_input - Gets glob.input from the commandline
  *
  * Return: Void
  */
 
-char *get_input(char *lineptr, size_t len)
+void get_input(void)
 {
 	ssize_t char_read;
+	size_t len;
 
-	lineptr = NULL;
-	len = 0;
-	char_read = getline(&lineptr, &len, stdin);
+	glob.input = NULL;
+	len = sizeof(glob.input);
+	char_read = getline(&glob.input, &len, stdin);
 	if (char_read == -1)
 	{
 		if (feof(stdin))
 		{
-			free(lineptr);
-		/*	write(STDOUT_FILENO, "\n", 1);	*/
+			_free((void **)&glob.input);
+			/*	write(STDOUT_FILENO, "\n", 1);	*/
 			exit(EXIT_SUCCESS);
 		}
 		else
 		{
-			free(lineptr);
+			_free((void **)&glob.input);
 			perror("Getline Error");
 			exit(EXIT_FAILURE);
 		}
@@ -35,6 +34,4 @@ char *get_input(char *lineptr, size_t len)
 	/*{*/
 	/*	lineptr[char_read - 1] = '\0';*/
 	/*}*/
-
-	return (lineptr);
 }
