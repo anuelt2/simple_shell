@@ -11,42 +11,38 @@
 
 int main(int argc, char *argv[], char *envp[])
 {
-	char input[128];
 	char *delim = DELIM;
-	char *str;
-	char *pathname;
-	char **args;
+	char *comm = NULL;
+	char **args = NULL;
 	int cmd_count, exec;
 
 	(void)argc;
 	(void)argv;
 	cmd_count = 0;
+	signal(SIGINT, handle_sigint);
 	while (1)
 	{
 		if (isatty(STDIN_FILENO))
 		{
 			display_prompt();
 		}
-		str = get_input(input, sizeof(input));
+		get_input();
 		cmd_count++;
-		args = string_tok(str, delim);
-		pathname = args[0];
+		args = string_tok(glob.input, delim);
 		if (args[0] == NULL)
 		{
-			free(str);
-			free(args);
+			free_resources(args);
+			_free((void **)&glob.input);
 			continue;
 		}
-
+		comm = args[0];
 		exec = exec_builtin(args, envp);
-		if (exec == 1)
-		{
+		if (exec != 0)
 			continue;
-		}
-
-		exec_external(pathname, args, envp, cmd_count);
-		free(args);
-		free(str);
+		if (env_function_caller(args) == 0)
+			exec_external(comm, args, envp, cmd_count);
+		free_resources(args);
+		_free((void **)&glob.input);
 	}
 
 	return (0);
