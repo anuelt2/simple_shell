@@ -14,11 +14,10 @@
 #include <signal.h>
 
 /**
-* * Task 0 - 4 pass tests
+* * Task 0 - 7 pass tests
 * * Task 10 passes tests
-* TODO-1: env/setenv/unsetenv might be ok. (Need to submit and see)
-* TODO-2: implement getline and strtok
-* TODO-3: Handling comments, files and variables
+* TODO-1: setenv/unsetenv might be ok. (Need to submit and see)
+* TODO-2: Handling comments, files and variables
 */
 
 #define TOKEN_ARRAY_SIZE 20
@@ -31,12 +30,14 @@
 * @environ_copy: copy of environ
 * @input: glob.input from command line
 * @comm_path: path of current command
+* @status: exit status
 */
 struct Global
 {
 	char **environ_copy;
 	char *input;
 	char *comm_path;
+	int status;
 } glob;
 
 /* shell.c */
@@ -47,14 +48,16 @@ void display_prompt(void);
 
 /* get_input.c */
 void get_input(void);
+ssize_t _getline(char **lineptr, size_t *n, FILE *stream);
 
 /* _free.c */
 void _free(void **ptr);
 void free_resources(char **args);
 
 /* execute.c */
-int exec_builtin(char *args[], char **envp);
-void exec_external(char *comm, char *args[], char *envp[], int cmd_count);
+int exec_builtin(char *args[], char **envp, char *shell, int cmd_count);
+void exec_external(char *comm, char *args[], char *shell, char *envp[],
+int cmd_count);
 
 /* exec_utils.c */
 int _path_size(char **envp);
@@ -74,7 +77,7 @@ char *get_oldpwd_path(char **envp, int size);
 int oldpwd_path_size(char **envp);
 
 /* cd_functions */
-int cd_args(char **args, char **envp);
+int cd_args(char **args, char **envp, char *shell, int cmd_count);
 
 /* exit.c */
 void exit_function(char *args[]);
@@ -82,7 +85,9 @@ void exit_function(char *args[]);
 /* cd_args.c */
 int set_oldpwd(void);
 int set_pwd(void);
-int cd_exec(char *args[], char **envp);
+int cd_exec(char *args[], char **envp, char *shell, int cmd_count);
+/* strtok.c */
+char *_strtok(char *str, const char *delim);
 
 /* str_utils.c */
 size_t _strlen(char *str);
