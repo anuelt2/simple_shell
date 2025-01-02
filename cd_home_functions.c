@@ -35,7 +35,7 @@ int home_path_size(char **envp)
 
 char *get_home_path(char **envp, int size)
 {
-	char *path;
+	char *path = NULL;
 	int i = 0, j = 4, k = 0;
 
 	size = home_path_size(envp);
