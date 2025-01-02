@@ -35,7 +35,7 @@ int pwd_path_size(char **envp)
 
 char *get_pwd_path(char **envp, int size)
 {
-	char *path;
+	char *path = NULL;
 	int i = 0, j = 3, k = 0;
 
 	size = pwd_path_size(envp);
@@ -90,7 +90,7 @@ int oldpwd_path_size(char **envp)
 
 char *get_oldpwd_path(char **envp, int size)
 {
-	char *path;
+	char *path = NULL;
 	int i = 0, j = 6, k = 0;
 
 	size = oldpwd_path_size(envp);
