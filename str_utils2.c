@@ -48,7 +48,7 @@ char *_strcat(char *dest, char *src)
 	return (start);
 }
 /**
- * string_tok - Calls and implements strtok function
+ * string_tok - Calls and implements _strtok function
  * @str: Command string
  * @delim: Delimiter string
  *
@@ -67,9 +67,15 @@ char **string_tok(char *str, char *delim)
 		return (NULL);
 	}
 
-	token = strtok(str, delim);
+	token = _strtok(str, delim);
 	while (token != NULL)
 	{
+		if (token[0] == '"' && token[_strlen(token) - 1] == '"')
+		{
+			memmove(token, token + 1, _strlen(token) - 2);
+			token[_strlen(token) - 2] = '\0';
+		}
+
 		tokens[position] = _strdup(token);
 		if (!tokens[position])
 		{
@@ -78,7 +84,7 @@ char **string_tok(char *str, char *delim)
 			return (NULL);
 		}
 		position++;
-		token = strtok(NULL, delim);
+		token = _strtok(NULL, delim);
 	}
 	tokens[position] = NULL;
 
