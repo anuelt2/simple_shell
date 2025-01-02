@@ -50,13 +50,15 @@ int set_pwd(void)
  * cd_exec - Executes cd commands
  * @args: Array of commandline arguments
  * @envp: Pointer to environment variables
+ * @shell: name of the running shell
+ * @cmd_count: Count of commands entered in each shell session
  *
  * Return: 0 (success)
  */
 
-int cd_exec(char *args[], char **envp)
+int cd_exec(char *args[], char **envp, char *shell, int cmd_count)
 {
-	const char *path;
+	char *path = NULL;
 	int size;
 
 	if (args[1] == NULL)
@@ -68,24 +70,29 @@ int cd_exec(char *args[], char **envp)
 		{
 			fprintf(stderr, "cd: no home directory\n");
 			free_resources(args);
+			free(path);
 			return (-1);
 		}
 		if (chdir(path) != 0)
 		{
 			perror("cd");
 			free_resources(args);
+			free(path);
 			return (-1);
 		}
 		set_pwd();
 		free_resources(args);
+		free(path);
 		return (1);
 	}
 	if (args[1] != NULL)
 	{
-		cd_args(args, envp);
+		cd_args(args, envp, shell, cmd_count);
 		free_resources(args);
+		free(path);
 		return (1);
 	}
 	free_resources(args);
+	free(path);
 	return (0);
 }
