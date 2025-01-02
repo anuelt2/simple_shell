@@ -104,7 +104,7 @@ char *find_ext_file(char *comm, char **envp)
 		_free((void **)&env_path);
 	else
 		env_path = get_env_var_value(envp, "PATH");
-	dir = strtok(env_path, ":");
+	dir = _strtok(env_path, ":");
 	while (dir != NULL)
 	{
 		if (comm[0] == '/' || comm[0] == '.')
@@ -116,7 +116,7 @@ char *find_ext_file(char *comm, char **envp)
 			_free((void **)&env_path);
 			return (glob.comm_path);
 		}
-		dir = strtok(NULL, ":");
+		dir = _strtok(NULL, ":");
 	}
 	_free((void **)&env_path);
 	_free((void **)&glob.comm_path);
