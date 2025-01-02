@@ -44,9 +44,7 @@ int set_env(char *var, char *val, int overwrite)
 			glob.environ_copy[i][var_len] == '=')
 		{
 			if (overwrite == 0)
-			{
 				return (0);
-			}
 			break;
 		}
 	}
@@ -120,12 +118,14 @@ int env_function_caller(char **args)
 	}
 	else if (_strcmp(args[0], "setenv") == 0)
 	{
-		set_env(args[1], args[2], 1);
+		if (args[1] && args[2])
+			set_env(args[1], args[2], 1);
 		return (1);
 	}
 	else if (_strcmp(args[0], "unsetenv") == 0)
 	{
-		unset_env(args[1]);
+		if (args[1])
+			unset_env(args[1]);
 		return (1);
 	}
 	return (0);
