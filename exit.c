@@ -10,7 +10,9 @@
 void exit_function(char *args[])
 {
 	if (args[1] != NULL)
-		glob.status = atoi(args[1]);
+		glob.last_exited_status = atoi(args[1]);
+
+
 
 	if (args != NULL)
 		free_resources(args);
@@ -18,8 +20,7 @@ void exit_function(char *args[])
 		free_resources(glob.environ_copy);
 	if (glob.input)
 		_free((void **)&glob.input);
-
-	exit(glob.status);
+	exit(glob.last_exited_status);
 }
 
 /**

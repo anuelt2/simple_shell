@@ -31,22 +31,7 @@ char *_strdup(char *s)
 	_strcpy(dup, s);
 	return (dup);
 }
-/**
- * _strcat - concat string
- * @dest: where to add to
- * @src: what to add
- * Return: pointer to dest
- */
-char *_strcat(char *dest, char *src)
-{
-	char *start = dest;
 
-	while (*dest)
-		dest++;
-	while ((*dest++ = *src++))
-		;
-	return (start);
-}
 /**
  * string_tok - Calls and implements _strtok function
  * @str: Command string
@@ -92,22 +77,22 @@ char **string_tok(char *str, char *delim)
 }
 
 /**
- * format_env_var - link a path var to its value
- * @name: variable name
- * @value: variable value
- * Return: pointer to the combined string
- */
-char *format_env_var(char *name, char *value)
+* _strchr - Searches for the first occurrence ofcharacter 'c' in string 's'.
+* @s: The string to be scanned.
+* @c: The character to be searched in 's'.
+* Return: pointer to first occurence of 'c' or NULL
+*/
+char *_strchr(char *s, int c)
 {
-	size_t len = _strlen(name) + _strlen(value) + 2;
-	char *env_var = malloc(len);
-
-	if (!env_var)
+	if (!s)
 		return (NULL);
-
-	_strcpy(env_var, name);
-	_strcat(env_var, "=");
-	_strcat(env_var, value);
-
-	return (env_var);
+	while (*s)
+	{
+		if (*s == (char)c)
+			return (s);
+		s++;
+	}
+	if ((char)c == '\0')
+		return (s);
+	return (NULL);
 }

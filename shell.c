@@ -43,6 +43,7 @@ int main(int argc, char *argv[], char *envp[])
 			exec_external(comm, args, argv[0], envp, cmd_count);
 		free_resources(args);
 		_free((void **)&glob.input);
+		/*printf("Error: %d - Message: %s\n", errno, strerror(errno));*/
 	}
 
 	return (0);

@@ -16,7 +16,7 @@ int cd_args(char **args, char **envp, char *shell, int cmd_count)
 	char buf[1024];
 
 	(void)envp;
-	if (strcmp(args[1], "-") == 0)
+	if (_strcmp(args[1], "-") == 0)
 	{
 		path = get_oldpwd_path(envp, oldpwd_path_size(envp));
 		getcwd(buf, sizeof(buf));

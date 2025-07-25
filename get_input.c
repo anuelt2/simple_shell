@@ -60,22 +60,15 @@ void get_input(void)
 	size_t len = 0;
 
 	glob.input = NULL;
-	len = sizeof(glob.input);
-	char_read = getline(&glob.input, &len, stdin);
+	char_read = _getline(&glob.input, &len, stdin);
+
 	if (char_read == -1)
 	{
-		if (feof(stdin))
-		{
-			_free((void **)&glob.input);
-			/*	write(STDOUT_FILENO, "\n", 1);	*/
+		_free((void **)&glob.input);
+		if (errno == 0)
 			exit(EXIT_SUCCESS);
-		}
 		else
-		{
-			_free((void **)&glob.input);
-			perror("Getline Error");
-			exit(EXIT_FAILURE);
-		}
+			exit(EXIT_SUCCESS);
 	}
 
 	/*if (char_read > 0 && lineptr[char_read - 1] == '\n')*/

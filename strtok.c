@@ -7,7 +7,7 @@
  *
  * Return: Pointer to the next token or NULL if there are no more tokens
  */
-char *_strtok(char *str, const char *delim)
+char *_strtok(char *str, char *delim)
 {
 	static char *last;
 	unsigned int i = 0;
@@ -19,7 +19,7 @@ char *_strtok(char *str, const char *delim)
 	if (last == NULL)
 		return (NULL);
 
-	while (last[i] != '\0' && strchr(delim, last[i]) != NULL)
+	while (last[i] != '\0' && _strchr(delim, last[i]) != NULL)
 		i++;
 
 	if (last[i] == '\0')
@@ -27,7 +27,7 @@ char *_strtok(char *str, const char *delim)
 
 	token = last + i;
 
-	while (last[i] != '\0' && strchr(delim, last[i]) == NULL)
+	while (last[i] != '\0' && _strchr(delim, last[i]) == NULL)
 		i++;
 
 	if (last[i] != '\0')

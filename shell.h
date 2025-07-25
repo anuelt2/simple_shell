@@ -12,12 +12,13 @@
 #include <sys/stat.h>
 #include <limits.h>
 #include <signal.h>
+#include <errno.h>
 
 /**
-* * Task 0 - 7 pass tests
-* * Task 10 passes tests
+* * Tasks - 1, 2, 4, 5, 6, 7, 10 pass tests
 * TODO-1: setenv/unsetenv might be ok. (Need to submit and see)
 * TODO-2: Handling comments, files and variables
+* TODO-3: Consider not using exec_builtin. Everything to run through execve()
 */
 
 #define TOKEN_ARRAY_SIZE 20
@@ -28,16 +29,16 @@
 /**
 * struct Global - Holds globally used variables
 * @environ_copy: copy of environ
-* @input: glob.input from command line
+* @input: input from command line
 * @comm_path: path of current command
-* @status: exit status
+* @last_exited_status: exit status of last child process
 */
 struct Global
 {
 	char **environ_copy;
 	char *input;
 	char *comm_path;
-	int status;
+	int last_exited_status;
 } glob;
 
 /* shell.c */
@@ -87,7 +88,7 @@ int set_oldpwd(void);
 int set_pwd(void);
 int cd_exec(char *args[], char **envp, char *shell, int cmd_count);
 /* strtok.c */
-char *_strtok(char *str, const char *delim);
+char *_strtok(char *str, char *delim);
 
 /* str_utils.c */
 size_t _strlen(char *str);
@@ -99,9 +100,8 @@ int _strcon(char *str, char c);
 /* str_utils2.c */
 char *_strcpy(char *dest, char *src);
 char *_strdup(char *s);
-char *_strcat(char *dest, char *src);
 char **string_tok(char *str, char *delim);
-char *format_env_var(char *name, char *value);
+char *_strchr(char *s, int c);
 
 /* env_utils.c */
 int env_size(void);
